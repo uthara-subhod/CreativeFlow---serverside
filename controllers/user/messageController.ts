@@ -22,7 +22,7 @@ export const addMessage = async (req,res)=>{
         const user2 = req.params.user2
         const {message}= req.body
         const us2 :any = await UserRepository.addChat(user1,user2)
-        const chat = await NotificationRepository.addMessage({from:user1, to:user2, message:message})
+        const chat = await NotificationRepository.addMessage({from:user1, to:user2, message:message, createdAt:Date.now()})
         if(chat){
             const userSocket = userSockets[us2?.user_id];
             if (userSocket) {
