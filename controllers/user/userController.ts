@@ -1,6 +1,7 @@
 import NotificationRepository from "../../repositories/NotificationRepository";
 import ReportRepository from "../../repositories/ReportRepository";
 import ServiceRepository from "../../repositories/ServiceRepository";
+import TransactionRepository from "../../repositories/TransactionRepository";
 import UserRepository from "../../repositories/UserRepository";
 import notificationService from "../../services/notificationService";
 import userService from "../../services/userService";
@@ -213,6 +214,58 @@ export const report = async (req, res) => {
         }
     } catch (err: any) {
         res.status(500).json({ msg: err.message })
+    }
+}
+
+export const subscription = async (req,res)=>{
+    try {
+        const { plan } = req.body
+        const userId= req.user._id
+        const tr = await TransactionRepository.subscription(userId)
+        let user: any
+        if (plan == 'free') {
+            user = await UserRepository.updateUser(req.user._id, { plan: plan })
+        } else {
+            const date = new Date()
+            date.setFullYear(date.getFullYear() + 1)
+            user = await UserRepository.updateUser(req.user._id, { plan: plan, premium: date })
+        }
+        if (user) {
+
+            if (plan == 'free') {
+                res.status(200).json({ plan: true })
+            } else {
+                const options ={
+                    plan_id: "plan_MqQL94BnLvq4bb",
+                    customer_notify: 1,
+                    quantity: 1,
+                    total_count: 12,
+                }
+
+                razorpayInstance.subscriptions.create({
+                    plan_id: "plan_MqQL94BnLvq4bb",
+                    customer_notify: 1,
+                    quantity: 1,
+                    total_count: 12,
+                    
+                },async (err, razorpayOrder) => {
+                    if (!err) {
+                        res.status(200).json({
+                            plan: true,
+                            id: razorpayOrder.id,
+                            subscription:razorpayOrder.plan_id,
+                            key_id: "rzp_test_lBhHdo9vOqWbPn",
+                        });
+                    } else {
+                        res.status(500).json({ err: err });
+                    }
+                })
+            }
+        } else {
+            res.status(500).json({ msg: "Some error" })
+        }
+    } catch (err: any) {
+        res.status(404).json({ msg: err.message })
     }
 }
 

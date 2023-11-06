@@ -30,7 +30,8 @@
   "main": "app.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --exec ts-node app.ts"
+    "start": "nodemon --exec ts-node app.ts",
+    "pm2": "ts-node -T -P tsconfig.json app.ts"
   },
   "author": "",
   "license": "ISC",

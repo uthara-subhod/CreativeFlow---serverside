@@ -82,6 +82,7 @@ io.on('connection', (socket:Socket) => {
   const userId = getUserIdFromSocket(socket);
 
   if (userId) {
+    console.log("user socket ", userId)
     userSockets[userId] = socket;
   }
   socket.on('disconnect', () => {

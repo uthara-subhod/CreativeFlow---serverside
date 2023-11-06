@@ -31,6 +31,10 @@ class TransactionRepostory {
         return Transaction.findOneAndUpdate({transaction_id:id},{$set:{paid:false, status:"error"}})
     }
 
+    async subscription(user:string){
+        return Transaction.find({buyer:user, seller:"CreativeFlow"}).sort({createdAt:-1}).limit(1)
+    }
+
 }
 
 export default new TransactionRepostory()
