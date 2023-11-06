@@ -5,15 +5,16 @@ export const createComment = async (req, res) => {
     try {
         const{ reply_id,item,...data}  = req.body
         const comment:any = await CommentRepository.createComment(data)
-        if(data.place=='chapter'){
+        if(data.reply){
+            const id = comment?._id
+            await CommentRepository.replyComment(reply_id,id)
+        }
+        if(data.location.place=='chapter'){
             await notificationService.comment(item,comment,item.book.author)
         }else{
             await notificationService.comment(item,comment,item.artist._id)
         }
         const comments = await CommentRepository.getComments(data.location.id)
-        if(data.reply){
-            await CommentRepository.replyComment(reply_id,comment._id)
-        }
         if(comment){
             res.status(200).json({comment:comment, comments:comments})
         }else{
