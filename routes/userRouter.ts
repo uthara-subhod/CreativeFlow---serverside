@@ -7,7 +7,7 @@ import { create, pay, sellerTransactions, status} from "../controllers/user/tran
 import { genres } from "../controllers/admin/genreController";
 import { addChapter, addToPaidList, authorBooks, authorPbooks, book, chapter, createBook, deleteBook, deleteChapter, getBooks, isPaid, publish, publishChapter, save, saveChapter, unPublishChapter, unpublish, voteBook } from "../controllers/user/bookController";
 import { createComment, deleteComment, editComment, getComments } from "../controllers/user/commentController";
-import { addMessage, loadMessages } from "../controllers/user/messageController";
+import { addMessage, chatList, loadMessages } from "../controllers/user/messageController";
 import { artFields } from "../controllers/admin/artFieldController";
 import { Artwork, artistArtWorks, artistPartworks, createArtwork, deleteArtwork, getArtworks, publishArtwork, saveArtwork, unpublishArtwork, vote } from "../controllers/user/artworkController";
 import { services } from "../controllers/admin/serviceController";
@@ -93,7 +93,7 @@ router.post('/comment/create',verifyUser, createComment)
 router.post ('/comment/:comment_id',verifyUser, editComment)
 router.delete('/comment/:comment_id', verifyUser, deleteComment)
 
-
+router.get('/chat/list',verifyUser,chatList)
 router.get('/chat/:user1/:user2', verifyUser, loadMessages)
 router.post('/chat/:user1/:user2', verifyUser, addMessage)
 

@@ -27,6 +27,7 @@ class UserRepository {
     return User.findByIdAndUpdate(user2, {$addToSet:{chat:user1}})
   }
 
+
   async blockUser(owner:string, user:string){
     return User.findOneAndUpdate({user_id:owner},{$addToSet:{blocked:user}})
   }

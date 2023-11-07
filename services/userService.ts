@@ -59,14 +59,7 @@ class UserService {
     if (!user) {
       throw new Error('User not found');
     }
-    if(user.plan=='paid'){
 
-      const premium = new Date(user.premium as Date)
-      const currentDate = new Date();
-      if(premium<currentDate){
-        await UserRepository.updateUser(user._id as string,{plan:'free'})
-      }
-    }
     const token= this.generateToken(user,1);
     return {token:token, user:user};
     

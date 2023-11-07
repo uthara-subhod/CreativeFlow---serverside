@@ -23,6 +23,9 @@ class NotificationRepositary{
     async loadMessages(user1:string, user2:string){
         return Message.find({ $and: [{ from: { $in: [user1, user2] } },{ to: { $in: [user1, user2] } }]})      
     }
+    async getLatestMessage(user1:string, user2:string){
+        return Message.find({ $and: [{ from: { $in: [user1, user2] } },{ to: { $in: [user1, user2] } }]}).sort({createdAt:-1}).limit(1)     
+    }
 
     async graph(owner:string, endDate:any, startDate:any, type:string){
         return Notification.aggregate([  
