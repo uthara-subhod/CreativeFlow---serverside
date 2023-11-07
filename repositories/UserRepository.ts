@@ -74,6 +74,10 @@ class UserRepository {
     return User.findById(id)
   }
 
+  async forgotPassword(email:string, password:string){
+    return User.findOneAndDelete({email:email},{$set:{password:password}})
+  }
+
 }
                                            
 export default new UserRepository();

@@ -111,7 +111,7 @@ export const clear = async (req, res) => {
     try {
         const id = req.user._id
         const notifications = await NotificationRepository.clearAll(id)
-        res.status(200).json({ msg:'success' })
+        res.status(200).json({ msg: 'success' })
     } catch (err: any) {
         res.status(404).json({ msg: err.message })
     }
@@ -146,7 +146,7 @@ export const plan = async (req, res) => {
             if (plan == 'free') {
                 res.status(200).json({ plan: true })
             } else {
-                const options ={
+                const options = {
                     plan_id: "plan_MqQL94BnLvq4bb",
                     customer_notify: 1,
                     quantity: 1,
@@ -158,13 +158,13 @@ export const plan = async (req, res) => {
                     customer_notify: 1,
                     quantity: 1,
                     total_count: 12,
-                    
-                },async (err, razorpayOrder) => {
+
+                }, async (err, razorpayOrder) => {
                     if (!err) {
                         res.status(200).json({
                             plan: true,
                             id: razorpayOrder.id,
-                            subscription:razorpayOrder.plan_id,
+                            subscription: razorpayOrder.plan_id,
                             key_id: "rzp_test_lBhHdo9vOqWbPn",
                         });
                     } else {
@@ -217,50 +217,24 @@ export const report = async (req, res) => {
     }
 }
 
-export const subscription = async (req,res)=>{
+export const subscription = async (req, res) => {
     try {
-        const { plan } = req.body
-        const userId= req.user._id
-        const tr = await TransactionRepository.subscription(userId)
-        let user: any
-        if (plan == 'free') {
-            user = await UserRepository.updateUser(req.user._id, { plan: plan })
-        } else {
-            const date = new Date()
-            date.setFullYear(date.getFullYear() + 1)
-            user = await UserRepository.updateUser(req.user._id, { plan: plan, premium: date })
-        }
-        if (user) {
+        const userId = req.user._id
+        const tr: any = await TransactionRepository.subscription(userId)
 
-            if (plan == 'free') {
-                res.status(200).json({ plan: true })
-            } else {
-                const options ={
-                    plan_id: "plan_MqQL94BnLvq4bb",
-                    customer_notify: 1,
-                    quantity: 1,
-                    total_count: 12,
-                }
-
-                razorpayInstance.subscriptions.create({
-                    plan_id: "plan_MqQL94BnLvq4bb",
-                    customer_notify: 1,
-                    quantity: 1,
-                    total_count: 12,
-                    
-                },async (err, razorpayOrder) => {
-                    if (!err) {
-                        res.status(200).json({
-                            plan: true,
-                            id: razorpayOrder.id,
-                            subscription:razorpayOrder.plan_id,
-                            key_id: "rzp_test_lBhHdo9vOqWbPn",
-                        });
-                    } else {
-                        res.status(500).json({ err: err });
-                    }
-                })
+        if (tr) {
+            const options = {
+                plan_id: "plan_MqQL94BnLvq4bb",
+                customer_notify: 1,
+                quantity: 1,
+                total_count: 12,
             }
+            const payment = await razorpayInstance.payments.fetch(tr?.paymentID)
+            razorpayInstance.subscriptions.cancel(payment.subscription_id).then((sub)=>{
+                res.status(200).json({msg:"Subscription cancelled successfully!"})
+            }).catch((err:any)=>{
+                res.status(400).json({msg:err})
+            })
         } else {
             res.status(500).json({ msg: "Some error" })
         }

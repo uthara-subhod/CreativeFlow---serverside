@@ -1,6 +1,6 @@
 
-import {google, login,otp,register} from "../controllers/user/authController"
-import { follow, getProfile, getUsers, notifications, user, isFollow, unFollow, edit, clear, plan, roles, report} from '../controllers/user/userController';
+import {forgot, google, login,otp,register} from "../controllers/user/authController"
+import { follow, getProfile, getUsers, notifications, user, isFollow, unFollow, edit, clear, plan, roles, report, subscription} from '../controllers/user/userController';
 import { Router } from "express"
 import { verifyUser } from "../utility/jwt";
 import { create, pay, sellerTransactions, status} from "../controllers/user/transactionController";
@@ -18,6 +18,7 @@ router.post('/register',register);
 router.post('/login',login)
 router.post('/google',google)
 router.post('/otp',otp)
+router.post('/password',forgot)
 
 
 router.get('/user',verifyUser,user)
@@ -32,6 +33,7 @@ router.get('/user/:id/notifications',verifyUser,notifications)
 router.get('/user/:id/notifications/clear',verifyUser,clear)
 router.get('/user/:id/artworks',verifyUser,artistPartworks)
 router.get('/user/:id/books',verifyUser,authorPbooks)
+router.post('/user/subscription',verifyUser,subscription)
 router.post('/pay',verifyUser,create)
 router.post('/report',verifyUser,report)
 
