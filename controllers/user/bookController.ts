@@ -96,11 +96,19 @@ export const book = async (req, res) => {
 
 export const createBook = async (req, res) => {
     try {
+        const user:any = await UserRepository.findById(req.user.user_id)
         const data = { author: req.user._id, title: "Untitled" }
-
+        if(user.plan=="free"){
+            const twentyFourHoursAgo = new Date();
+            twentyFourHoursAgo.setHours(twentyFourHoursAgo.getHours() - 24);
+            const exist = await BookRepository.checkLimit(req.user._id,twentyFourHoursAgo)
+            if(exist){
+                res.status(401).json({ msg: "You have reached the maximum limit today!" })
+                return
+            }
+        }
         const book = await BookRepository.createBook(data)
         if (book) {
-
             res.status(200).json({ book: book })
         } else {
             res.status(400).json({ msg: "Error creating book" })
@@ -109,6 +117,8 @@ export const createBook = async (req, res) => {
         res.status(500).json({ msg: err.message })
     }
 }
+
+
 export const save = async (req, res) => {
     try {
         const { _id, book_id, ...data } = req.body;

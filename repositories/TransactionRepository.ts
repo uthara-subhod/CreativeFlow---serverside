@@ -17,6 +17,10 @@ class TransactionRepostory {
         return Transaction.find({seller:seller}).sort({createdAt:-1}).populate({path:"buyer"})
     }
 
+    async getBuyer(buyer:string){
+        return Transaction.find({buyer:buyer}).sort({createdAt:-1}).populate({path:"buyer"})
+    }
+
     async checkBought(item_id:string, user:string){
         return Transaction.findOne({buyer:user, detail:{$regex:item_id}})
     }

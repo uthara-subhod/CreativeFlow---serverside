@@ -13,6 +13,10 @@ class ArtWorkRepository{
         return Artwork.findOne({artwork_id:id}).populate({path:'artist'}).populate({path:'category'})
     }
 
+    async checkLimit(user:string,date:any){
+        return Artwork.find({artist:user,publishedAt:{ $gte: date}})
+    }
+
     async getArtWorks(){
         return Artwork.find({published:true}).populate({path:'artist'})
     }

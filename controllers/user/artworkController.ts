@@ -62,8 +62,17 @@ export const Artwork = async (req, res) => {
 
 export const createArtwork = async (req, res) => {
     try {
-        
+        const user:any = await UserRepository.findById(req.user.user_id)
         const data = {artist:req.user._id,title:"Untitled"}
+        if(user.plan=="free"){
+            const twentyFourHoursAgo = new Date();
+            twentyFourHoursAgo.setHours(twentyFourHoursAgo.getHours() - 24);
+            const exist = await ArtworkRepository.checkLimit(req.user._id,twentyFourHoursAgo)
+            if(exist.length>=5){
+                res.status(401).json({ msg: "You have reached the maximum limit today!" })
+                return
+            }
+        }
         const artwork = await ArtworkRepository.createArtWork(data)
         if (artwork) {
             
@@ -112,7 +121,7 @@ export const unpublishArtwork = async (req,res)=>{
         const artwork = await ArtworkRepository.unpublishArtWork(_id)
         if (artwork) {
             res.status(200).json({ artwork: artwork })
-        } else {
+        } else { 
             res.status(404).json({ msg: "Error getting Artwork" })
         }
     } catch (err: any) {

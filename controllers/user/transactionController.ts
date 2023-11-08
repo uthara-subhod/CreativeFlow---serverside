@@ -1,5 +1,6 @@
 import Razorpay from "razorpay";
 import TransactionRepository from "../../repositories/TransactionRepository"
+import UserRepository from "../../repositories/UserRepository";
 
 const razorpayInstance = new Razorpay({
     key_id: "rzp_test_lBhHdo9vOqWbPn",
@@ -70,6 +71,24 @@ export const sellerTransactions = async (req,res)=>{
   try{
     const userId= req.user.user_id
     const trs : any = await TransactionRepository.getSeller(userId)
+      res.status(200).json({ data: trs })
+
+  }catch(err:any){
+    res.status(500).json({msg:err.message})
+  }
+}
+
+export const buyerTransactions = async (req,res)=>{
+  try{
+    const userId= req.user._id
+    const trs : any = await TransactionRepository.getBuyer(userId)
+    for(let i=0;i<trs.length;i++){
+      if(trs[i].seller!="CreativeFlow"){
+          const seller = await UserRepository.findById(trs[i].seller)
+          trs[i].detail = trs[i].detail.split(',')[0]
+          trs[i].seller = seller?.fullname
+      }
+  }
       res.status(200).json({ data: trs })
 
   }catch(err:any){

@@ -3,7 +3,7 @@ import {forgot, google, login,otp,register} from "../controllers/user/authContro
 import { follow, getProfile, getUsers, notifications, user, isFollow, unFollow, edit, clear, plan, roles, report, subscription} from '../controllers/user/userController';
 import { Router } from "express"
 import { verifyUser } from "../utility/jwt";
-import { create, pay, sellerTransactions, status} from "../controllers/user/transactionController";
+import { buyerTransactions, create, pay, sellerTransactions, status} from "../controllers/user/transactionController";
 import { genres } from "../controllers/admin/genreController";
 import { addChapter, addToPaidList, authorBooks, authorPbooks, book, chapter, createBook, deleteBook, deleteChapter, getBooks, isPaid, publish, publishChapter, save, saveChapter, unPublishChapter, unpublish, voteBook } from "../controllers/user/bookController";
 import { createComment, deleteComment, editComment, getComments } from "../controllers/user/commentController";
@@ -34,6 +34,7 @@ router.get('/user/:id/notifications/clear',verifyUser,clear)
 router.get('/user/:id/artworks',verifyUser,artistPartworks)
 router.get('/user/:id/books',verifyUser,authorPbooks)
 router.post('/user/subscription',verifyUser,subscription)
+router.get('/user/transactions',verifyUser,buyerTransactions)
 router.post('/pay',verifyUser,create)
 router.post('/report',verifyUser,report)
 

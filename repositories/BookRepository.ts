@@ -13,6 +13,10 @@ class BookRepository {
         return chapter.create({ book: id });
     }
 
+    async checkLimit(user:string,date:any){
+        return Book.findOne({author:user,publishedAt:{ $gte: date}})
+    }
+
     async getBook(id: string) {
         return Book.findOne({ book_id: id }).populate({ path: 'chapters' }).populate({ path: 'author' }).populate({ path: 'category' })
     }
