@@ -179,7 +179,7 @@ class BookRepository {
     }
 
     async getPaidList(user:string){
-        return Booklist.findOne({owner:user, access:"paid"}).populate({path:'books'})
+        return Booklist.findOne({owner:user, access:"paid"}).populate({path:'books'}).populate({path:'books.author'})
     }
 
 
