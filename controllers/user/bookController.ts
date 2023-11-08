@@ -328,3 +328,17 @@ export const isPaid = async (req, res) => {
         res.status(500).json({ msg: err.message })
     }
 }
+
+export const getLibrary = async (req,res)=>{
+    try {
+        const userId = req.user._id
+        const list = await BookRepository.getPaidList(userId)
+        if(list){
+            res.status(200).json({data:list,isEmpty:false})
+        }else{
+            res.status(200).json({isEmpty:true}) 
+        }
+    } catch (err: any) {
+        res.status(500).json({ msg: err.message })
+    }
+}

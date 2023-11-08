@@ -178,6 +178,10 @@ class BookRepository {
         return Booklist.findOneAndUpdate({owner:user, access:"paid"}, {$push:{books:book}}, {upsert:true})
     }
 
+    async getPaidList(user:string){
+        return Booklist.findOne({owner:user, access:"paid"}).populate({path:'books'})
+    }
+
 
 }
 
