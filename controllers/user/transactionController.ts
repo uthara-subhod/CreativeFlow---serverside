@@ -82,6 +82,7 @@ export const buyerTransactions = async (req,res)=>{
   try{
     const userId= req.user._id
     const trs : any = await TransactionRepository.getBuyer(userId)
+    console.log(trs)
     for(let i=0;i<trs.length;i++){
       if(trs[i].seller!="CreativeFlow"){
           const seller = await UserRepository.findById(trs[i].seller)
