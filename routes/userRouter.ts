@@ -34,7 +34,7 @@ router.get('/user/:id/notifications/clear',verifyUser,clear)
 router.get('/user/:id/artworks',verifyUser,artistPartworks)
 router.get('/user/:id/books',verifyUser,authorPbooks)
 router.post('/user/subscription',verifyUser,subscription)
-router.get('/user/transactions',verifyUser,buyerTransactions)
+router.get('/user/profile/transactions',verifyUser,buyerTransactions)
 router.post('/pay',verifyUser,create)
 router.post('/report',verifyUser,report)
 
