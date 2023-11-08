@@ -2,7 +2,6 @@ import BookRepository from "../../repositories/BookRepository";
 import TransactionRepository from "../../repositories/TransactionRepository";
 import UserRepository from "../../repositories/UserRepository";
 import notificationService from "../../services/notificationService";
-import { user } from "./userController";
 
 
 export const authorBooks = async (req, res) => {
@@ -339,6 +338,28 @@ export const getLibrary = async (req,res)=>{
             res.status(200).json({isEmpty:true}) 
         }
     } catch (err: any) {
+        res.status(500).json({ msg: err.message })
+    }
+}
+
+export const paidChapter = async (req, res) => {
+    try {
+        const chapter = req.params.chapter_id
+        const id = req.params.book_id
+        const userId = req.user._id
+        const t = await TransactionRepository.checkBought(id, userId)
+        if (t) {
+            const ch = await BookRepository.getPaidChapter(chapter,id)
+            if (ch) {
+                res.status(200).json({ chapter: ch })
+            } else {
+                res.status(404).json({ msg: "Error getting book" })
+            }
+        } else {
+            res.status(404).json({ status: false })
+        }
+    } catch (err: any) {
+        
         res.status(500).json({ msg: err.message })
     }
 }

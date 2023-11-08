@@ -5,7 +5,7 @@ import { Router } from "express"
 import { verifyUser } from "../utility/jwt";
 import { buyerTransactions, create, pay, sellerTransactions, status} from "../controllers/user/transactionController";
 import { genres } from "../controllers/admin/genreController";
-import { addChapter, addToPaidList, authorBooks, authorPbooks, book, chapter, createBook, deleteBook, deleteChapter, getBooks, getLibrary, isPaid, publish, publishChapter, save, saveChapter, unPublishChapter, unpublish, voteBook } from "../controllers/user/bookController";
+import { addChapter, addToPaidList, authorBooks, authorPbooks, book, chapter, createBook, deleteBook, deleteChapter, getBooks, getLibrary, isPaid, paidChapter, publish, publishChapter, save, saveChapter, unPublishChapter, unpublish, voteBook } from "../controllers/user/bookController";
 import { createComment, deleteComment, editComment, getComments } from "../controllers/user/commentController";
 import { addMessage, chatList, loadMessages } from "../controllers/user/messageController";
 import { artFields } from "../controllers/admin/artFieldController";
@@ -68,6 +68,7 @@ router.get('/create/transactions', verifyUser, sellerTransactions)
 router.post('/create/transactions/:id', verifyUser, status)
 
 router.get('/library',verifyUser,getLibrary)
+router.get('/library/:book_id/:chapter_id',verifyUser,paidChapter)
 router.get('/book/:book_id',book)
 router.get('/book/:book_id/buy',verifyUser, addToPaidList)
 router.get('/book/paid/:book_id',verifyUser, isPaid)
