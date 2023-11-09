@@ -249,8 +249,8 @@ export const dashboard = async (req,res)=>{
     try{
         const user = req.user.user_id
         const acc = await UserRepository.findById(user)
-        const artworks = await ArtworkRepository.artistArtWorks(user)
-        const books = await BookRepository.authorBooks(user)
+        const artworks = await ArtworkRepository.artistArtWorks(req.user._id)
+        const books = await BookRepository.authorBooks(req.user._id)
         const labels:any[]=[]
         const datas:any[]=[]
         for(let a of artworks){
