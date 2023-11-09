@@ -19,6 +19,9 @@ const commissionSchema: Schema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    details:{
+        type:String,
+    },
     customer:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
