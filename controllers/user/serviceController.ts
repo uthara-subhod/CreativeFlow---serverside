@@ -68,7 +68,8 @@ export const clientRequests = async (req, res) => {
 
 export const createRequest = async (req, res) => {
     try {
-        const data = req.body
+        const data:any = req.body
+        data.customer = req.user._id
         const request = await ServiceRepository.createRequest(data)
         if (request) {
             res.status(200).json({ msg: "Your request has been send" })
