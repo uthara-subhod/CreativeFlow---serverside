@@ -66,7 +66,7 @@ providerSchema.pre("save", async function (next) {
     let isUnique = false;
     while (!isUnique) {
         uniqueCode = uuidv4();
-        const existingOrder = await mongoose.model("provider").findOne({ cat_id: uniqueCode })
+        const existingOrder = await mongoose.model("provider").findOne({ provider_id: uniqueCode })
         isUnique = !existingOrder;
     }
     this.provider_id = uniqueCode;

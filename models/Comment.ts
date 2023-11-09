@@ -41,7 +41,8 @@ const commentSchema:Schema = new mongoose.Schema({
     edited:{
         type:Boolean,
         default:false
-    }
+    },
+    
 });
 
 commentSchema.pre("save", async function (next) {

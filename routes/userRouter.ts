@@ -11,7 +11,7 @@ import { addMessage, chatList, loadMessages } from "../controllers/user/messageC
 import { artFields } from "../controllers/admin/artFieldController";
 import { Artwork, artistArtWorks, artistPartworks, createArtwork, deleteArtwork, getArtworks, publishArtwork, saveArtwork, unpublishArtwork, vote } from "../controllers/user/artworkController";
 import { services } from "../controllers/admin/serviceController";
-import { provider, providers, registerProvider } from "../controllers/user/serviceController";
+import { clientAgree, clientRequests, createRequest, editRequest, getRequest, hasPaid, payRequest, provider, providers, registerProvider, requestStatus, vendorRequests } from "../controllers/user/serviceController";
 const router = Router()
 
 router.post('/register',register);
@@ -67,6 +67,10 @@ router.post('/create/artwork/delete',verifyUser,deleteArtwork)
 router.get('/create/transactions', verifyUser, sellerTransactions)
 router.post('/create/transactions/:id', verifyUser, status)
 
+router.get('/create/commissions',verifyUser,vendorRequests)
+router.post('/create/commissions/:commission_id/status',verifyUser,requestStatus)
+router.post('/create/commissions/:commission_id',verifyUser,editRequest)
+
 router.get('/library',verifyUser,getLibrary)
 router.get('/library/:book_id/:chapter_id',verifyUser,paidChapter)
 router.get('/book/:book_id',book)
@@ -85,6 +89,13 @@ router.get('/artworks',getArtworks)
 router.post('/provider', verifyUser, registerProvider)
 router.get('/providers', providers)
 router.get('/providers/:id', verifyUser, provider)
+
+router.get('/commissions',verifyUser,clientRequests)
+router.post('/commissions',verifyUser,createRequest)
+router.get('/commisions/pending',verifyUser, hasPaid)
+router.get('/commissions/:commission_id',verifyUser,getRequest)
+router.get('/commissions/:commission_id/agree',verifyUser,clientAgree)
+router.post('/commission/:commission_id/pay',verifyUser,payRequest)
 
 
 router.post('/buy', verifyUser, pay)

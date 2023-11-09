@@ -1,3 +1,4 @@
+import Commission from "../models/Commission";
 import Provider from "../models/Provider";
 import Service from "../models/Service";
 
@@ -44,6 +45,46 @@ class ServiceRepository{
 
     async getServices(){
         return Service.find()
+    }
+
+    async createRequest(data:any){
+        return Commission.create(data)
+    }
+
+    async findCommission(commission_id:string,user:string){
+        return Commission.findOne({ commission_id:commission_id,$or: [{ customer:  user }, { vendor:  user }]}).populate({path:'vendor'}).populate({path:'customer'}).populate({path:'provider'})
+    }
+
+    async clientRequests(user:string){
+        return Commission.find({customer:user})
+    }
+
+    async vendorRequests(user:string){
+        return Commission.find({vendor:user})
+    }
+
+    async vendorStatus(status:string, commission_id:string){
+        return Commission.findOneAndUpdate({commission_id:commission_id},{$set:{status:status}})
+    }
+
+    async editRequest(data:any, commission_id:string){
+        return Commission.findOneAndUpdate({commission_id:commission_id},{$set:data})
+    }
+
+    async clientAgree(commission_id:string){
+        return Commission.findOneAndUpdate({commission_id:commission_id},{$set:{agree2:true}})
+    }
+
+    async createPaymentLink(commission_id:string, paymentOrder:string){
+        return Commission.findOneAndUpdate({commission_id:commission_id},{$set:{paymentOrder:paymentOrder}})
+    }
+
+    async payRequest(commission_id:string, paymentId:string){
+        return Commission.findOneAndUpdate({commission_id:commission_id},{$set:{paymentId:paymentId, paid:true}})
+    }
+
+    async hasPaid(customer:string){
+        return Commission.findOne({customer:customer, paid:false})
     }
 
 }
