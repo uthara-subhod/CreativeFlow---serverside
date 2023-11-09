@@ -1,3 +1,5 @@
+import ArtworkRepository from "../../repositories/ArtworkRepository";
+import BookRepository from "../../repositories/BookRepository";
 import NotificationRepository from "../../repositories/NotificationRepository";
 import ReportRepository from "../../repositories/ReportRepository";
 import ServiceRepository from "../../repositories/ServiceRepository";
@@ -240,6 +242,28 @@ export const subscription = async (req, res) => {
         }
     } catch (err: any) {
         res.status(404).json({ msg: err.message })
+    }
+}
+
+export const dashboard = async (req,res)=>{
+    try{
+        const user = req.user.user_id
+        const artworks = await ArtworkRepository.artistArtWorks(user)
+        const books = await BookRepository.authorBooks(user)
+        const labels:any[]=[]
+        const datas:any[]=[]
+        for(let a of artworks){
+            labels.push(a.title)
+            datas.push(a.votes.length)
+        }
+        for(let a of books){
+            labels.push(a.title)
+            datas.push(a.votes.length)
+        }
+        res.status(200).json({books:books.length,artworks:artworks.length,labels,datas})
+        
+    }catch(err:any){
+        res.status(500).json({ msg: err.message })
     }
 }
 

@@ -1,6 +1,6 @@
 
 import {forgot, google, login,otp,register} from "../controllers/user/authController"
-import { follow, getProfile, getUsers, notifications, user, isFollow, unFollow, edit, clear, plan, roles, report, subscription} from '../controllers/user/userController';
+import { follow, getProfile, getUsers, notifications, user, isFollow, unFollow, edit, clear, plan, roles, report, subscription, dashboard} from '../controllers/user/userController';
 import { Router } from "express"
 import { verifyUser } from "../utility/jwt";
 import { buyerTransactions, create, pay, sellerTransactions, status} from "../controllers/user/transactionController";
@@ -57,6 +57,7 @@ router.post('/create/chapter/publish', verifyUser, publishChapter)
 router.post('/create/chapter/unpublish', verifyUser, unPublishChapter)
 router.post('/create/chapter/delete', verifyUser, deleteChapter)
 
+router.get('/create',verifyUser,dashboard)
 router.get('/create/artworks',verifyUser, artistArtWorks)
 router.get('/create/artwork',verifyUser,createArtwork)
 router.post('/create/artwork/save',verifyUser,saveArtwork)
