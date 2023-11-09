@@ -260,7 +260,7 @@ export const dashboard = async (req,res)=>{
         for(let a of books){
             labels.push(a.title)
             const vote = a.chapters.reduce((accumulator, chapter) => accumulator + chapter.votes.length, 0)
-            datas.push(a.vote)
+            datas.push(vote)
         }
         res.status(200).json({books:books.length,artworks:artworks.length,labels,datas, user:acc})
         
