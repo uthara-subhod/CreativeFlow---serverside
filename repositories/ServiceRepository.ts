@@ -72,7 +72,7 @@ class ServiceRepository{
     }
 
     async clientAgree(commission_id:string){
-        return Commission.findOneAndUpdate({commission_id:commission_id},{$set:{agree2:true}})
+        return Commission.findOneAndUpdate({commission_id:commission_id},{$set:{agree2:true,agreeDate:Date.now()}})
     }
 
     async createPaymentLink(commission_id:string, paymentOrder:string){

@@ -16,7 +16,7 @@ export const registerProvider = async (req, res) => {
         if (provider) {
             res.status(200).json({ msg: "Registered successfully" })
         } else {
-            res.statsu(400).json({ msg: "some error" })
+            res.statsu(400).json({ msg: "Error submitting Form" })
         }
     } catch (err: any) {
         res.status(500).json({ msg: err.message })
