@@ -115,7 +115,7 @@ export const editRequest = async (req, res) => {
     try {
         const commission = req.params.commission_id
         const data = req.body
-        const request = await ServiceRepository.editRequest(commission, data)
+        const request = await ServiceRepository.editRequest(data,commission)
         if (request) {
             res.status(200).json({ msg: "Edited" })
         } else {
