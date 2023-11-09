@@ -248,6 +248,7 @@ export const subscription = async (req, res) => {
 export const dashboard = async (req,res)=>{
     try{
         const user = req.user.user_id
+        const acc = await UserRepository.findById(user)
         const artworks = await ArtworkRepository.artistArtWorks(user)
         const books = await BookRepository.authorBooks(user)
         const labels:any[]=[]
@@ -260,7 +261,7 @@ export const dashboard = async (req,res)=>{
             labels.push(a.title)
             datas.push(a.votes.length)
         }
-        res.status(200).json({books:books.length,artworks:artworks.length,labels,datas})
+        res.status(200).json({books:books.length,artworks:artworks.length,labels,datas, user:acc})
         
     }catch(err:any){
         res.status(500).json({ msg: err.message })
