@@ -80,7 +80,7 @@ class ServiceRepository{
     }
 
     async payRequest(commission_id:string, paymentId:string){
-        return Commission.findOneAndUpdate({commission_id:commission_id},{$set:{paymentId:paymentId, paid:true}})
+        return Commission.findOneAndUpdate({commission_id:commission_id},{$set:{paymentId:paymentId, paid:true,status:"processing"}})
     }
 
     async hasPaid(customer:string){
