@@ -249,8 +249,8 @@ export const dashboard = async (req,res)=>{
     try{
         const user = req.user.user_id
         const acc = await UserRepository.findById(user)
-        const artworks = await ArtworkRepository.artistArtWorks(req.user._id)
-        const books = await BookRepository.authorBooks(req.user._id)
+        const artworks = await ArtworkRepository.artistPArtWorks(user)
+        const books = await BookRepository.authorPBooks(user)
         const labels:any[]=[]
         const datas:any[]=[]
         for(let a of artworks){
@@ -259,7 +259,8 @@ export const dashboard = async (req,res)=>{
         }
         for(let a of books){
             labels.push(a.title)
-            datas.push(a.votes.length)
+            const vote = a.chapter.reduce((accumulator, chapter) => accumulator + chapter.votes.length, 0)
+            datas.push(a.vote)
         }
         res.status(200).json({books:books.length,artworks:artworks.length,labels,datas, user:acc})
         

@@ -51,7 +51,7 @@ class BookRepository {
 
     async authorPBooks(author: string) {
         const user = await UserRepository.findById(author)
-        return Book.find({ author: user?._id, published: true }).populate({ path: 'author' })
+        return Book.find({ author: user?._id, published: true }).populate({ path: 'author' }).populate({path:'chapters'})
     }
 
     async updateDetails(data: any, id: string) {
