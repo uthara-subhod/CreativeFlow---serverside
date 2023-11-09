@@ -56,11 +56,11 @@ class ServiceRepository{
     }
 
     async clientRequests(user:string){
-        return Commission.find({customer:user})
+        return Commission.find({customer:user}).populate({path:'vendor'}).populate({path:'customer'}).populate({path:'provider'})
     }
 
     async vendorRequests(user:string){
-        return Commission.find({vendor:user})
+        return Commission.find({vendor:user}).populate({path:'vendor'}).populate({path:'customer'}).populate({path:'provider'})
     }
 
     async vendorStatus(status:string, commission_id:string){
