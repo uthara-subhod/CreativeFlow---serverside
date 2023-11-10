@@ -170,7 +170,7 @@ export const payRequest = async (req,res)=>{
             const data = {
                 buyer:request.customer._id,
                 seller:request.vendor.user_id,
-                paymentId:paymentId,
+                paymentID:paymentId,
                 amount:request.amount,
                 detail:"Service"
             }
