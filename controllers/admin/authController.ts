@@ -47,6 +47,13 @@ export const dashboard = async (req,res)=>{
         const users = await UserRepository.getUsers()
         const artfields = await ArtworkRepository.getPopularCategories()
         const genres = await BookRepository.getPopularCategories()
+        for(let i=0;i<trs.length;i++){
+            if(trs[i].seller!="CreativeFlow"){
+                const seller = await UserRepository.findById(trs[i].seller)
+                trs[i].detail = trs[i].detail.split(',')[0]
+                trs[i].seller = seller?.fullname
+            }
+        }
         res.status(200).json({trs,users,artfields,genres})
     }catch(err:any){
         res.status(500).json({msg:err.message})
