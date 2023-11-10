@@ -10,10 +10,9 @@ class ReportRepostory {
     }
 
     async findReport(data:any){
-        delete data.violation
-        delete data.description
-        delete data.links
-        return Report.findOne(data)
+        const {violation,description,links,...body}=data
+
+        return Report.findOne(body)
     }
 
     async getReports(){
