@@ -5,6 +5,7 @@ import ModeratorRepository from "../../repositories/ModeratorRepository";
 import TransactionRepository from "../../repositories/TransactionRepository";
 import UserRepository from "../../repositories/UserRepository";
 import ArtworkRepository from "../../repositories/ArtworkRepository";
+import BookRepository from "../../repositories/BookRepository";
 
 export const login = async (req,res)=>{
     try {
@@ -45,7 +46,7 @@ export const dashboard = async (req,res)=>{
         const trs:any = await TransactionRepository.getTrasactions()
         const users = await UserRepository.getUsers()
         const artfields = await ArtworkRepository.getPopularCategories()
-        const genres = await ArtworkRepository.getPopularCategories()
+        const genres = await BookRepository.getPopularCategories()
         res.status(200).json({trs,users,artfields,genres})
     }catch(err:any){
         res.status(500).json({msg:err.message})
