@@ -199,13 +199,13 @@ export const roles = async (req, res) => {
 export const report = async (req, res) => {
     try {
         const data: any = req.body
-        console.log(req.body)
         data.reporter = req.user._id
         const exist = await ReportRepository.findReport(data)
         if (exist) {
             res.status(409).json({ msg: "You have already submitted a report on this!" })
             return
         } 
+        console.log(data)
             const report = await ReportRepository.create(data)
             if (report) {
                 res.status(200).json({ msg: 'success!' })
