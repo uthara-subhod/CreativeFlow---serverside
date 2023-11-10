@@ -13,6 +13,28 @@ class BookRepository {
         return chapter.create({ book: id });
     }
 
+    async getPopularCategories(){
+        return Book.aggregate([
+            {
+              $lookup: {
+                from: 'genres', 
+                localField: 'category',
+                foreignField: '_id',
+                as: 'categoryInfo'
+              }
+            },
+            {
+              $unwind: '$categoryInfo'
+            },
+            {
+              $group: {
+                _id: '$categoryInfo.name', 
+                count: { $sum: 1 }
+              }
+            }
+          ])
+    }
+
     async checkLimit(user:string,date:any){
         return Book.findOne({author:user,publishedAt:{ $gte: date}})
     }

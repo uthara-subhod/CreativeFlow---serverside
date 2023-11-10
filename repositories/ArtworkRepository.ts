@@ -13,6 +13,28 @@ class ArtWorkRepository{
         return Artwork.findOne({artwork_id:id}).populate({path:'artist'}).populate({path:'category'})
     }
 
+    async getPopularCategories(){
+        return Artwork.aggregate([
+            {
+              $lookup: {
+                from: 'artfields', 
+                localField: 'category',
+                foreignField: '_id',
+                as: 'categoryInfo'
+              }
+            },
+            {
+              $unwind: '$categoryInfo'
+            },
+            {
+              $group: {
+                _id: '$categoryInfo.name', 
+                count: { $sum: 1 }
+              }
+            }
+          ])
+    }
+
     async checkLimit(user:string,date:any){
         return Artwork.find({artist:user,publishedAt:{ $gte: date}})
     }

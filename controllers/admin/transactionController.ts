@@ -2,6 +2,8 @@ import TransactionRepository from "../../repositories/TransactionRepository";
 import UserRepository from "../../repositories/UserRepository";
 
 
+
+
 export const transactions = async (req, res) => {
     try {
         const trs : any = await TransactionRepository.getTrasactions()
@@ -18,8 +20,8 @@ export const transactions = async (req, res) => {
             res.status(500).json({ msg: "Error fetching data" })
         }
 
-    } catch (err) {
-        res.status(500).json({ msg: "Error fetching data" })
+    } catch (err:any) {
+        res.status(500).json({msg:err.message})
     }
 }
 
@@ -35,8 +37,7 @@ export const pay = async (req, res) => {
         }
 
     } catch (err:any) {
-        console.log(err.message)
-        res.status(500).json({ msg: "Error fetching data" })
+        res.status(500).json({msg:err.message})
     }
 }
 
