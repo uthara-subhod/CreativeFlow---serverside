@@ -190,6 +190,20 @@ export const chapter = async (req, res) => {
     }
 
 }
+
+export const authorChapter = async (req,res)=>{
+    try {
+        const id = req.params.chapter_id
+        const chapter = await BookRepository.authorChapter(id)
+        if (chapter) {
+            res.status(200).json({ chapter: chapter })
+        } else {
+            res.status(404).json({ msg: "Error getting chapter" })
+        }
+    } catch (err: any) {
+        res.status(500).json({ msg: err.message })
+    }
+}
 export const addChapter = async (req, res) => {
     try {
         const id = req.params.book_id

@@ -5,7 +5,7 @@ import { Router } from "express"
 import { verifyUser } from "../utility/jwt";
 import { buyerTransactions, create, pay, sellerTransactions, status} from "../controllers/user/transactionController";
 import { genres } from "../controllers/admin/genreController";
-import { addChapter, addToPaidList, authorBooks, authorPbooks, book, chapter, createBook, deleteBook, deleteChapter, getBooks, getLibrary, isPaid, paidChapter, publish, publishChapter, save, saveChapter, unPublishChapter, unpublish, voteBook } from "../controllers/user/bookController";
+import { addChapter, addToPaidList, authorBooks, authorChapter, authorPbooks, book, chapter, createBook, deleteBook, deleteChapter, getBooks, getLibrary, isPaid, paidChapter, publish, publishChapter, save, saveChapter, unPublishChapter, unpublish, voteBook } from "../controllers/user/bookController";
 import { createComment, deleteComment, editComment, getComments } from "../controllers/user/commentController";
 import { addMessage, chatList, loadMessages } from "../controllers/user/messageController";
 import { artFields } from "../controllers/admin/artFieldController";
@@ -47,6 +47,7 @@ router.get('/create/books',verifyUser, authorBooks)
 router.get('/create/book',verifyUser,createBook)
 router.get('/create/book/:book_id',book)
 router.get('/create/:book_id/chapter',verifyUser,addChapter)
+router.get('/create/:book_id/chapter/:chapter_id',verifyUser,authorChapter)
 router.post('/create/book/save',verifyUser,save)
 router.post('/create/book/publish',verifyUser,publish)
 router.post('/create/book/unpublish',verifyUser,unpublish)

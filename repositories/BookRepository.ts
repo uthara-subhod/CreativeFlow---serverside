@@ -51,6 +51,10 @@ class BookRepository {
         return chapter.find({ book: id, published: true })
     }
 
+    async authorChapter(id:string){
+        return chapter.findOne({ chapter_id: id }).populate({ path: 'book' })
+    }
+
     async getChapter(id: string) {
         const ch = await chapter.findOne({ chapter_id: id }).populate({ path: 'book' })
         const book = await Book.findOne({book_id:ch?.book.book_id,premium:false})
