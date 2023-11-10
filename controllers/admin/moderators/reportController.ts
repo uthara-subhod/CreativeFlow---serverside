@@ -29,6 +29,7 @@ export const resolve = async (req,res)=>{
     try{
         const report_id=req.params.report_id
         const data=req.body
+        console.log(data)
         const report:any = await ReportRepository.getReport(report_id)
         let item:any
         const r = await ReportRepository.editReport(data,report_id)
