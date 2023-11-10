@@ -21,7 +21,7 @@ class ReportRepostory {
     }
 
     async getReport(report_id:string){
-        return Report.findOneAndUpdate({report_id:report_id}).populate({path:'book_id'}).populate({path:'chapter_id'})
+        return Report.findOne({report_id:report_id}).populate({path:'book_id'}).populate({path:'chapter_id'})
         .populate({path:'artwork_id'}).populate({path:'provider_id'}).populate({path:'user_id'}).populate({path:'reporter'})
     
     }
