@@ -198,7 +198,7 @@ export const roles = async (req, res) => {
 
 export const report = async (req, res) => {
     try {
-        const data: any = JSON.parse(JSON.stringify(req.body));
+        const data: any = req.body
         data.reporter = req.user._id
         const exist = await ReportRepository.findReport(data)
         if (exist) {
