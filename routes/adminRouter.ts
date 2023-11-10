@@ -1,5 +1,5 @@
 
-import { login } from "../controllers/admin/authController"
+import { dashboard, login } from "../controllers/admin/authController"
 import { edit, users } from "../controllers/admin/moderators/userController"
 import { Router } from "express"
 import { verifyAdmin } from "../utility/jwt"
@@ -16,6 +16,7 @@ router.use(verifyAdmin)
 
 router.post('/login',login)
 
+router.get('/',dashboard)
 router.get('/users',users)
 router.get('/users/:id/edit',edit)
 
