@@ -172,7 +172,8 @@ export const payRequest = async (req,res)=>{
                 seller:request.vendor.user_id,
                 paymentID:paymentId,
                 amount:request.amount,
-                detail:"Service"
+                detail:"Service",
+                status:"pending"
             }
             const tr = await TransactionRepository.create(data)
             if(tr){
