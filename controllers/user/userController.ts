@@ -204,17 +204,15 @@ export const report = async (req, res) => {
         const exist = await ReportRepository.findReport(data)
         if (exist) {
             res.status(409).json({ msg: "You have already submitted a report on this!" })
-        } else {
-
-            const rep: any = req.body
-            rep.reporter = req.user._id
-            const report = await ReportRepository.create(rep)
+            return
+        } 
+            const report = await ReportRepository.create(data)
             if (report) {
                 res.status(200).json({ msg: 'success!' })
             } else {
                 res.status(500).json({ msg: "Some error" })
             }
-        }
+        
     } catch (err: any) {
         res.status(500).json({ msg: err.message })
     }
