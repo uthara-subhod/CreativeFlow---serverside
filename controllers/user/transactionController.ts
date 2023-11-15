@@ -57,7 +57,7 @@ export const pay = async (req,res)=>{
                 msg: "Order Created",
               });
             } else {
-              res.status(500).json({ status: false });
+              res.status(500).json({ err:err});
             }
           });
         }

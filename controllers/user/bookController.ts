@@ -335,7 +335,7 @@ export const isPaid = async (req, res) => {
         if (t) {
             res.status(200).json({ status: true })
         } else {
-            res.status(404).json({ status: false })
+            res.status(200).json({ status: false })
         }
     } catch (err: any) {
         res.status(500).json({ msg: err.message })
