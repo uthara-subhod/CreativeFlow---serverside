@@ -16,6 +16,7 @@ export const create = async (req,res)=>{
             seller= req.body.seller
         }else{
             seller =  "CreativeFlow"
+            await UserRepository.updateUser(buyer,{plan:'paid'})
         }
         const data = {
             buyer,

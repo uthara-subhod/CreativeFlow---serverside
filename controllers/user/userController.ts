@@ -141,20 +141,11 @@ export const plan = async (req, res) => {
         } else {
             const date = new Date()
             date.setFullYear(date.getFullYear() + 1)
-            user = await UserRepository.updateUser(req.user._id, { plan: plan, premium: date })
         }
         if (user) {
-
             if (plan == 'free') {
                 res.status(200).json({ plan: true })
             } else {
-                const options = {
-                    plan_id: "plan_MqQL94BnLvq4bb",
-                    customer_notify: 1,
-                    quantity: 1,
-                    total_count: 12,
-                }
-
                 razorpayInstance.subscriptions.create({
                     plan_id: "plan_MqQL94BnLvq4bb",
                     customer_notify: 1,
