@@ -16,7 +16,9 @@ export const create = async (req,res)=>{
             seller= req.body.seller
         }else{
             seller =  "CreativeFlow"
-            await UserRepository.updateUser(buyer,{plan:'paid'})
+            const date = new Date()
+            date.setFullYear(date.getFullYear() + 1)
+            await UserRepository.updateUser(buyer,{plan:'paid', premium:date})
         }
         const data = {
             buyer,

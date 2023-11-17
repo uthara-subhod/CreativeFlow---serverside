@@ -135,13 +135,7 @@ export const edit = async (req, res) => {
 export const plan = async (req, res) => {
     try {
         const { plan } = req.body
-        let user: any
-        if (plan == 'free') {
-            user = await UserRepository.updateUser(req.user._id, { plan: plan })
-        } else {
-            const date = new Date()
-            date.setFullYear(date.getFullYear() + 1)
-        }
+        let user: any = await UserRepository.updateUser(req.user._id, { plan: 'free' })
         if (user) {
             if (plan == 'free') {
                 res.status(200).json({ plan: true })
