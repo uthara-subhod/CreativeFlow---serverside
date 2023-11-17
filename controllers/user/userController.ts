@@ -224,6 +224,7 @@ export const subscription = async (req, res) => {
         const tr: any = await TransactionRepository.subscription(userId)
 
         if (tr) {
+            console.log(tr)
             const options = {
                 plan_id: "plan_MqQL94BnLvq4bb",
                 customer_notify: 1,
