@@ -226,8 +226,8 @@ export const subscription = async (req, res) => {
         if (tr) {
             const payment = await razorpayInstance.payments.fetch(tr[0].paymentID)
             const invoice = await razorpayInstance.invoices.fetch(payment.invoice_id)
-            console.log(invoice)
-            razorpayInstance.subscriptions.cancel(invoice.subscription_id).then((sub)=>{
+            razorpayInstance.subscriptions.cancel(invoice.subscription_id).then(async (sub)=>{
+                await UserRepository.updateUser(req.user.user_id,{plan:'free'})
                 res.status(200).json({msg:"Subscription cancelled successfully!"})
             }).catch((err:any)=>{
                 res.status(400).json({msg:err})
