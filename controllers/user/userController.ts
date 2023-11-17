@@ -231,7 +231,7 @@ export const subscription = async (req, res) => {
                 quantity: 1,
                 total_count: 12,
             }
-            const payment = await razorpayInstance.payments.fetch(tr.paymentID)
+            const payment = await razorpayInstance.payments.fetch(tr[0].paymentID)
             console.log(payment)
             razorpayInstance.subscriptions.cancel(payment.subscription_id).then((sub)=>{
                 res.status(200).json({msg:"Subscription cancelled successfully!"})
