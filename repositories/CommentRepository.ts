@@ -16,10 +16,10 @@ class CommentRepository {
         return Comment.findOneAndUpdate({ comment_id: main }, { $push: { replies:  reply  } })
     }
     async deleteComment(id: string) {
-
         const c: any = await Comment.findOne({ comment_id: id })
         if(c.reply==true){
-            return Comment.findOneAndUpdate({}, { $pull: { replies:  c._id  } })
+            await Comment.findOneAndUpdate({}, { $pull: { replies:  c._id  } })
+            return Comment.findOneAndDelete({ comment_id: id })
         }
         if (c.replies.length == 0) {
             return Comment.findOneAndDelete({ comment_id: id })
